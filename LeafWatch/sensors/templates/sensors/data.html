@@ -1,0 +1,7 @@
+<h1> Sensors </h1>
+<ul>
+    {%for sensor in allSensors%}
+    <h2> {{sensor.sensorName}} </h2>
+    <h3> status: {{sensor.status}}</h3>
+    {%endfor%}
+</ul>
