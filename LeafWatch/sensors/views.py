@@ -1,5 +1,4 @@
 from django.shortcuts import render, get_object_or_404
-from django.http import HttpResponse, Http404
 from .models import SensorGroup, Sensor
 
 
@@ -25,9 +24,18 @@ def data(request,GroupSensor_id):
     
 
 def allSensors(request):
+
+    num_visits = request.session.get('num_visits', 0)
+    request.session['num_visits'] = num_visits + 1
+
+    context = {
+        'num_visits': num_visits
+    }
+
     allSensors = SensorGroup.objects.all()
     context = {
         'allSensors' : allSensors,
+        'num_visits': num_visits
     }
     return render(request, "sensors/boxes.html", context)
 
