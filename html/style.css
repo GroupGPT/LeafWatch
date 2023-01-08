@@ -1,0 +1,36 @@
+body {
+    background-color: #e3e3e3;
+  }
+.title {
+  font-size: 48px;
+  font-family: sans-serif;
+  text-align: center;
+  padding-bottom: 150px;
+}
+.button {
+  transition-duration: 0.3s;
+  font-family: sans-serif;
+  background-color: #3d4cb9;
+  border: none;
+  color: white;
+  padding: 50px 64px;
+  text-align: center;
+  text-decoration: none;
+  font-size: 16px;
+  border-radius: 8px;
+  margin: 50px 50px;
+  float: left;
+}
+.button:hover {
+  background-color: #333f96;
+}
+.buttonsmall {
+  font-family: sans-serif;
+  padding: 0px 20px;
+  margin: 10px 10px;
+  float: none;
+}
+.graph {
+  padding-left: 25px;
+  margin: 50px 0px;
+}
