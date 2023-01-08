@@ -2,3 +2,4 @@
 ChartJSRough/.parcel-cache
 ChartJSRough/dist
 ChartJSRough/node_modules
+.vscode/launch.json
