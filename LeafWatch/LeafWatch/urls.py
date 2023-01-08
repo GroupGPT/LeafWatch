@@ -22,3 +22,4 @@ urlpatterns = [
     path('sensors/', include('sensors.urls')),
     path('', lambda req: redirect('/sensors/')),
 ]
+
