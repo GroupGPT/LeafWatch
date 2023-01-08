@@ -63,7 +63,7 @@ async function makeChart() {
     return mychart
 }
 
-var mychart = makeChart();
+var mychart = (async () => {return await makeChart()})();
 
 var daybutton = document.getElementById('24h');
 var weekbutton = document.getElementById('7d');
@@ -78,9 +78,12 @@ function updatechart(chart, newlabels, newdatasets) {
 }
 
 function newData(chart, hours, xAxisLength) {
-    var ratio = Math.floor(hours/xAxisLength);
-    var newlabels = [];
-    var newdatasets = {};
+    let ratio = Math.floor(hours/xAxisLength);
+    let newlabels = [];
+    let newdatasets = {};
+    chart.data.datasets.forEach((dataset) => {
+        newdatasets[dataset.label] = []
+    });
     for (let i = 0; i < xAxisLength; i++) {
         newlabels.push(i*ratio);
         chart.data.datasets.forEach((dataset) => {
@@ -99,10 +102,11 @@ function newData(chart, hours, xAxisLength) {
     return [newlabels, newdatasets]
 }
 
-daybutton.onclick = () => {
+daybutton.onclick = async () => {
     alert('please tell mme youre working')
-    var [newlabels, newdatasets] = newData(mychart,24,24);
-    updatechart(mychart, newlabels, newdatasets);
+    let chart = await mychart
+    var [newlabels, newdatasets] = newData(chart,24,24);
+    updatechart(chart, newlabels, newdatasets);
 }
 weekbutton.onclick = () => {
     //update(24*7);
