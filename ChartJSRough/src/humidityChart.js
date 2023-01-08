@@ -29,8 +29,10 @@ async function makeChart() {
         {
             type: 'line',
             data: {
-                labels: timeStamps,
-                datasets: [
+                labels: [],
+                //labels: timeStamps,
+                datasets: [],
+                /*datasets: [
                     {
                         label: 'Node 1',
                         data: node1TempData,
@@ -39,7 +41,7 @@ async function makeChart() {
                         label: 'Node 2',
                         data: node2TempData,
                     }
-                ]
+                ]*/
             },
             options: {
                 scales: {
@@ -56,10 +58,12 @@ async function makeChart() {
             },
         }
     );
-    /*for (key in tempData) {
+    for (key in tempData) {
         var temp = tempData[key];
         mychart.data.datasets.push({data: temp, label: key})
-    }*/
+    }
+    var [newlabels, newdatasets] = newData(mychart,24,24);
+    updatechart(mychart, newlabels, newdatasets);
     return mychart
 }
 
@@ -77,15 +81,32 @@ function updatechart(chart, newlabels, newdatasets) {
     chart.update();
 }
 
-function newData(chart, hours, xAxisLength) {
-    let ratio = Math.floor(hours/xAxisLength);
+function newData(chart, hours, xAxisLength, unit="hour") {
+    var ratio = Math.floor(hours/xAxisLength)
+    var dispRatio
+    switch (unit) {
+        case "hour":
+            dispRatio = 1;
+            break;
+        case "12hr":
+            dispRatio = 1/12;
+            break;
+        case "day":
+            dispRatio = 1/24;
+            break;
+        case "minute":
+            dispRatio = 60;
+            break;
+        default:
+            dispRatio = 1;
+    }
     let newlabels = [];
     let newdatasets = {};
     chart.data.datasets.forEach((dataset) => {
         newdatasets[dataset.label] = []
     });
     for (let i = 0; i < xAxisLength; i++) {
-        newlabels.push(i*ratio);
+        newlabels.push(i*ratio*dispRatio);
         chart.data.datasets.forEach((dataset) => {
             let originalData = tempData[dataset.label]
             if (ratio == 1) {
@@ -112,11 +133,11 @@ daybutton.onclick = async () => {
 }
 weekbutton.onclick = async () => {
     let chart = await mychart
-    var [newlabels, newdatasets] = newData(chart,24*7,24);
+    var [newlabels, newdatasets] = newData(chart,24*7,14,"day");
     updatechart(chart, newlabels, newdatasets);
 }
 monthbutton.onclick = async () => {
     let chart = await mychart
-    var [newlabels, newdatasets] = newData(chart,24*30,24);
+    var [newlabels, newdatasets] = newData(chart,24*30,30,"day");
     updatechart(chart, newlabels, newdatasets);
 }
