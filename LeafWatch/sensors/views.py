@@ -1,32 +1,35 @@
 from django.shortcuts import render
-from django.http import HttpResponse
+from django.http import HttpResponse, Http404
 from .models import SensorGroup, Sensor
-from django.template import loader
 
 
 def graphs(request,GroupSensor_id):
+
+    try:
+        SensorGroup.objects.get(id = GroupSensor_id)
+    except:
+        raise Http404("Sensor group does not exist")
+
+
     sensors = Sensor.objects.all().filter(sensorGroup = GroupSensor_id)
-    template = loader.get_template("test/src/graphs.html")
     context = {
         'allSensors' : sensors,
         'sensorGroup' : GroupSensor_id,
     }
-    return HttpResponse(template.render(context, request))
+    return render(request, "test/src/graphs.html", context)
 
 
 def data(request,GroupSensor_id):
     sensors = Sensor.objects.all().filter(sensorGroup = GroupSensor_id)
-    template = loader.get_template("sensors/data.html")
     context = {
         'allSensors' : sensors,
     }
-    return HttpResponse(template.render(context, request))
+    return render(request, "sensors/data.html", context)
     
-
+#sensor group
 def allSensors(request):
     allSensors = SensorGroup.objects.all()
-    template = loader.get_template("sensors/boxes.html")
     context = {
         'allSensors' : allSensors,
     }
-    return HttpResponse(template.render(context, request))
+    return render(request, "sensors/boxes.html", context)
