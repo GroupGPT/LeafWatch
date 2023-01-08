@@ -1,0 +1,105 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <title>Chart.js example</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <!-- <div style="width: 500px;"><canvas id="dimensions"></canvas></div><br/> -->
+    <div class="div-1">
+        <canvas id="testChart"></canvas>
+    </div>
+
+    <!-- <script type="module" src="dimensions.js"></script> -->
+    <!-- <script type="module" src="temperatureChart.js"></script> -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@2.9.4"></script>
+
+    <script>
+        var timeStamps = [];
+        for (i = 0; i < 24; i++) {
+            timeStamps.push(i.toString());
+        }
+
+        var node1TempData = [];
+        for (i = 0; i < 24; i++) {
+            var temp = Math.floor(Math.random() * 60) - 20;
+            node1TempData.push(temp);
+        }
+
+        var node2TempData = [];
+        for (i = 0; i < 24; i++) {
+            var temp = Math.floor(Math.random() * 60) - 20;
+            node2TempData.push(temp);
+        }
+
+        const ctx = document.getElementById('testChart').getContext("2d");
+        const testChart = new Chart(
+            ctx,
+            {
+                type: 'line',
+                data: {
+                    labels: timeStamps,
+                    datasets: [
+                        {
+                            label: 'Node 1',
+                            data: node1TempData,
+                        },
+                        {
+                            label: 'Node 2',
+                            data: node2TempData,
+                        }
+                    ]
+                },
+                options: {
+                    Response: true,
+                    scales: {
+                        y: {
+                            ticks: {
+                                // Include a dollar sign in the ticks
+                                callback: function (value, index, ticks) {
+                                    return value + " °C";
+                                }
+                            }
+                        }
+                    },
+
+                },
+            }
+        );
+    </script>
+
+    <script>
+        // function loadChart(chart, endpoint) {
+        //     $.ajax({
+        //         url: endpoint,
+        //         type: "GET",
+        //         dataType: "json",
+        //         success: (jsonResponse) => {
+        //             // Extract data from the response
+        //             const title = jsonResponse.title;
+        //             const labels = jsonResponse.data.labels;
+        //             const datasets = jsonResponse.data.datasets;
+
+        //             // Reset the current chart
+        //             chart.data.datasets = [];
+        //             chart.data.labels = [];
+
+        //             // Load new data into the chart
+        //             chart.options.title.text = title;
+        //             chart.options.title.display = true;
+        //             chart.data.labels = labels;
+        //             datasets.forEach(dataset => {
+        //                 chart.data.datasets.push(dataset);
+        //             });
+        //             chart.update();
+        //         },
+        //         error: () => console.log("Failed to fetch chart data from " + endpoint + "!")
+        //     });
+        // }
+    </script>
+
+</body>
+
+</html>
