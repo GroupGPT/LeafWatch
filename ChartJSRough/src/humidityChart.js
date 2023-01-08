@@ -87,15 +87,17 @@ function newData(chart, hours, xAxisLength) {
     for (let i = 0; i < xAxisLength; i++) {
         newlabels.push(i*ratio);
         chart.data.datasets.forEach((dataset) => {
+            let originalData = tempData[dataset.label]
             if (ratio == 1) {
-                newdatasets[dataset.label].push(dataset.data[i-hours])
+                // why can't I just use negative indexing graahhhh
+                newdatasets[dataset.label].push(originalData[originalData.length+(i-hours)]) 
             } else if ((i+1)*ratio < hours) {
-                var range = dataset.data.slice((i)*ratio-hours,(i+1)*ratio-hours);
+                var range = originalData.slice((i)*ratio-hours,(i+1)*ratio-hours);
                 var sum = range.reduce((partial, a) => partial + a, 0);
                 var average = sum/(range.length);
                 newdatasets[dataset.label].push(average);
             } else {
-                newdatasets[dataset.label].push(dataset.data[-1]);
+                newdatasets[dataset.label].push(originalData[originalData.length-1]);
             }
         }); 
     }
@@ -103,16 +105,18 @@ function newData(chart, hours, xAxisLength) {
 }
 
 daybutton.onclick = async () => {
-    alert('please tell mme youre working')
+    //alert('please tell mme youre working')
     let chart = await mychart
     var [newlabels, newdatasets] = newData(chart,24,24);
     updatechart(chart, newlabels, newdatasets);
 }
-weekbutton.onclick = () => {
-    //update(24*7);
-    
+weekbutton.onclick = async () => {
+    let chart = await mychart
+    var [newlabels, newdatasets] = newData(chart,24*7,24);
+    updatechart(chart, newlabels, newdatasets);
 }
-monthbutton.onclick = () => {
-    //update(24*30);
-    
+monthbutton.onclick = async () => {
+    let chart = await mychart
+    var [newlabels, newdatasets] = newData(chart,24*30,24);
+    updatechart(chart, newlabels, newdatasets);
 }
