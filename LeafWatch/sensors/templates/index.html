@@ -1,0 +1,28 @@
+{% extends "base_generic.html" %}
+
+{% block content %}
+<h1>Leaf Watcher Home</h1>
+
+<h2> Sensor Groups: </h2>
+
+<!-- 
+<div class="container">
+    {%for sensor in allSensors%}
+    <a href="/sensors/{{ sensor.id }}/" class="no-color">
+        <div class="box">
+            <div class="title">Sensor Group {{sensor.id}}</div>
+            <div class="text">{{sensor.location}}</div>
+        </div>
+        {%endfor%}
+</div> -->
+
+<div class="container">
+    <div class="button-row">
+        <button class="btn-group">Group 1</button>
+        <button class="btn-group">Group 2</button>
+        <button class="btn-group">Group 3</button>
+    </div>
+</div>
+
+<p>You have visited this page {{ num_visits }} time{{ num_visits|pluralize }}.</p>
+{% endblock %}
