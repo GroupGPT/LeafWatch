@@ -67,7 +67,7 @@ async function makeChart() {
     return mychart
 }
 
-var mychart = (async () => {return await makeChart()})();
+var mychart = makeChart();
 
 var daybutton = document.getElementById('24h');
 var weekbutton = document.getElementById('7d');
