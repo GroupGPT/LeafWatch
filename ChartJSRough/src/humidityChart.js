@@ -125,19 +125,19 @@ function newData(chart, hours, xAxisLength, unit="hour") {
     return [newlabels, newdatasets]
 }
 
-daybutton.onclick = async () => {
+daybutton.addEventListener('click', async () => {
     //alert('please tell mme youre working')
     let chart = await mychart
     var [newlabels, newdatasets] = newData(chart,24,24);
     updatechart(chart, newlabels, newdatasets);
-}
-weekbutton.onclick = async () => {
+});
+weekbutton.addEventListener('click', async () => {
     let chart = await mychart
     var [newlabels, newdatasets] = newData(chart,24*7,14,"day");
     updatechart(chart, newlabels, newdatasets);
-}
-monthbutton.onclick = async () => {
+});
+monthbutton.addEventListener('click', async () => {
     let chart = await mychart
     var [newlabels, newdatasets] = newData(chart,24*30,30,"day");
     updatechart(chart, newlabels, newdatasets);
-}
+});
