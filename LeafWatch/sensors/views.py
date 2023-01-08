@@ -23,6 +23,14 @@ def data(request,GroupSensor_id):
     }
     return render(request, "sensors/data.html", context)
     
+
+
+
+
+def chartTest(request):
+    #return HttpResponse(template.render({}, request))
+    return render(request, 'sensors/chartTest.html', {})
+
 #sensor group
 def allSensors(request):
     allSensors = SensorGroup.objects.all()
