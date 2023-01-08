@@ -1,0 +1,49 @@
+<h1> Sensor Groups </h1>
+
+<style>
+    .container {
+      display: flex;
+      flex-wrap: wrap;
+    }
+    
+    .box {
+      width: 200px;
+      height: 200px;
+      border: 1px solid black;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      margin: 10px;
+      border-radius: 10px;
+      box-shadow: 2px 2px 5px rg
+    }
+    
+    .title {
+      font-weight: bold;
+      font-size: larger;
+      margin-bottom: 10px;
+    }
+    
+    .text {
+      text-align: center;
+    }
+
+    .no-color {
+        color: inherit;
+        text-decoration: none;
+    }
+
+    </style>
+    
+    <div class="container">
+        {%for sensor in allSensors%}
+    <a href = "/sensors/{{ sensor.id }}/" class="no-color">
+      <div class="box">
+        <div class="title">Sensor Group {{sensor.id}}</div>
+        <div class="text">{{sensor.location}}</div>
+      </div>
+      {%endfor%}
+    </div>
+  
