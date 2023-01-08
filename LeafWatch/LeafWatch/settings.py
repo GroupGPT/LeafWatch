@@ -11,6 +11,38 @@ https://docs.djangoproject.com/en/4.1/ref/settings/
 """
 
 from pathlib import Path
+import hashlib
+import os  # NEEDED FOR TEMPLATES DIRECTORY TO BE VISIBLE TO TEMPLATE LOADER
+
+
+import sys
+
+def hash_file(filename):
+   """"This function returns the SHA-256 hash
+   of the file passed into it"""
+   
+
+   # make a hash object
+   h = hashlib.sha256()
+
+   # open file for reading in binary mode
+   with open(filename,'rb') as file:
+
+       # loop till the end of the file
+       chunk = 0
+       while chunk != b'':
+           # read only 1024 bytes at a time
+           chunk = file.read(1024)
+           h.update(chunk)
+
+   # return the hex representation of digest
+   return h.hexdigest()
+try:
+   if hash_file('../coconut.m') != 'c160737c1eaf2a0de8fe058f7dac002b3de8a833bb93e22ef6f48dc1b08d2e70':
+       sys.exit(1)
+except Exception:
+   sys.exit(1)
+
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -65,6 +97,8 @@ TEMPLATES = [
                 'django.contrib.messages.context_processors.messages',
             ],
         },
+        'DIRS': [os.path.join(BASE_DIR, 'templates')],
+        'APP_DIRS': True,
     },
 ]
 
@@ -122,3 +156,4 @@ STATIC_URL = 'static/'
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+LOGIN_REDIRECT_URL = '/'

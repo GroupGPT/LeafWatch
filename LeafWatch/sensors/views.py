@@ -1,39 +1,64 @@
-
-from django.shortcuts import render
-from django.http import HttpResponse
+from django.shortcuts import render, get_object_or_404
 from .models import SensorGroup, Sensor
-from django.template import loader
 
 
-def graphs(request, GroupSensor_id):
-    sensors = Sensor.objects.all().filter(sensorGroup=GroupSensor_id)
-    template = loader.get_template("test/src/graphs.html")
+def graphs(request,GroupSensor_id):
+
+    group = get_object_or_404(SensorGroup, id = GroupSensor_id)
+
+    sensors = Sensor.objects.all().filter(sensorGroup = GroupSensor_id)
     context = {
-        'allSensors': sensors,
-        'sensorGroup': GroupSensor_id,
+        'allSensors' : sensors,
+        'sensorGroup' : GroupSensor_id,
+        'group' : group,
     }
-    return HttpResponse(template.render(context, request))
+    return render(request, "test/src/graphs.html", context)
 
 
-def data(request, GroupSensor_id):
-    sensors = Sensor.objects.all().filter(sensorGroup=GroupSensor_id)
-    template = loader.get_template("sensors/data.html")
+def data(request,GroupSensor_id):
+    sensors = Sensor.objects.all().filter(sensorGroup = GroupSensor_id)
     context = {
-        'allSensors': sensors,
+        'allSensors' : sensors,
     }
-    return HttpResponse(template.render(context, request))
-
+    return render(request, "sensors/data.html", context)
+    
 
 def allSensors(request):
-    allSensors = SensorGroup.objects.all()
-    template = loader.get_template("sensors/boxes.html")
+
+    num_visits = request.session.get('num_visits', 0)
+    request.session['num_visits'] = num_visits + 1
+
     context = {
-        'allSensors': allSensors,
+        'num_visits': num_visits
     }
-    return HttpResponse(template.render(context, request))
+
+    allSensors = SensorGroup.objects.all()
+    context = {
+        'allSensors' : allSensors,
+        'num_visits': num_visits
+    }
+    return render(request, "sensors/boxes.html", context)
+
+
+def index(request):
+    """View function for home page of site."""
+    # allSensors = SensorGroup.objects.all()
+    # template = loader.get_template("sensors/boxes.html")
+    # context = {
+    #     'allSensors': allSensors,
+    # }
+
+    # Number of visits to this view, as counted in the session variable.
+    num_visits = request.session.get('num_visits', 0)
+    request.session['num_visits'] = num_visits + 1
+
+    context = {
+        'num_visits': num_visits
+    }
+
+    # Render the HTML template index.html with the data in the context variable
+    return render(request, 'index.html', context=context)
 
 
 def chartTest(request):
-    template = loader.get_template("sensors/chartTest.html")
-    return HttpResponse(template.render({}, request))
-    # return render(request, 'chartTest.html', {})
+    return render(request, 'sensors/chartTest.html', {})

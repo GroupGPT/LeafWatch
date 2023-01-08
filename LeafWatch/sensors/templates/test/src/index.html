@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    {% load static %}
+    <script src="{% static 'chart.js/auto' %}"></script>
+
+    <link rel="stylesheet" href="{% static 'css/style.css' %}" />
+    <title>LeafWatch</title>
+  </head>
+  <body>
+    <h1 class="title">LeafWatch</h1>
+
+    {%for sensor in allSensors%}
+    <button
+    <button class="button" style="margin-left: 40px" onclick="href='/sensors/{{ sensor.id }}/'">
+      <div class="title">Sensor Group {{sensor.id}}</div>
+      <div class="text">{{sensor.location}}</div>
+    </button>
+    {%endfor%}
+    
+  </body>
+</html>
