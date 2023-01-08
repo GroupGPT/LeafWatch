@@ -24,7 +24,7 @@ tempData['Node 2'] = node2TempData;
 const ctx = document.getElementById('humidityChart').getContext("2d");
 
 async function makeChart() {
-    let mychart = new Chart(
+    var mychart = new Chart(
         ctx,
         {
             type: 'line',
@@ -71,29 +71,30 @@ var monthbutton = document.getElementById('30d');
 
 function updatechart(chart, newlabels, newdatasets) {
     chart.data.labels = newlabels;
-    for (let i = 0; i < newdatasets.length; i++){
-        chart.data.datasets[i].data = newdatasets[i];
-    }
+    chart.data.datasets.forEach((dataset) => {
+        dataset.data = newdatasets[dataset.label];
+    });
     chart.update();
 }
 
-function newData(chart, hours,xAxisLength) {
-    var ratio = floor(hours/xAxisLength);
+function newData(chart, hours, xAxisLength) {
+    var ratio = Math.floor(hours/xAxisLength);
     var newlabels = [];
-    var newdatasets = [];
+    var newdatasets = {};
     for (let i = 0; i < xAxisLength; i++) {
         newlabels.push(i*ratio);
-        for (let x = 0; x < chart.data.datasets.length; x++) {
-            if ((i+1)*ratio < hours) {
-                var range = chart.data.datasets[x].slice(-(i+1)*ratio,-i*ratio,);
+        chart.data.datasets.forEach((dataset) => {
+            if (ratio == 1) {
+                newdatasets[dataset.label].push(dataset.data[i-hours])
+            } else if ((i+1)*ratio < hours) {
+                var range = dataset.data.slice((i)*ratio-hours,(i+1)*ratio-hours);
                 var sum = range.reduce((partial, a) => partial + a, 0);
                 var average = sum/(range.length);
-                newdatasets[x].push(average);
+                newdatasets[dataset.label].push(average);
             } else {
-                newdatasets[x].push(chart.data.datasets[x].data[-1]);
+                newdatasets[dataset.label].push(dataset.data[-1]);
             }
-            
-        }
+        }); 
     }
     return [newlabels, newdatasets]
 }
