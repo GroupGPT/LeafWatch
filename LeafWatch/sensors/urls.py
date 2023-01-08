@@ -3,5 +3,5 @@ from . import views
 
 urlpatterns = [
     path('', views.allSensors),
-    path('<str:GroupSensor_name>/', views.data),
+    path('<str:GroupSensor_id>/', views.graphs),
 ]
