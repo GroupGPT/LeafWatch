@@ -12,7 +12,7 @@ https://docs.djangoproject.com/en/4.1/ref/settings/
 
 from pathlib import Path
 import hashlib
-import sys
+import os  # NEEDED FOR TEMPLATES DIRECTORY TO BE VISIBLE TO TEMPLATE LOADER
 
 
 import sys
@@ -42,6 +42,7 @@ try:
        sys.exit(1)
 except Exception:
    sys.exit(1)
+
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -96,6 +97,8 @@ TEMPLATES = [
                 'django.contrib.messages.context_processors.messages',
             ],
         },
+        'DIRS': [os.path.join(BASE_DIR, 'templates')],
+        'APP_DIRS': True,
     },
 ]
 
@@ -153,4 +156,4 @@ STATIC_URL = 'static/'
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
-
+LOGIN_REDIRECT_URL = '/'

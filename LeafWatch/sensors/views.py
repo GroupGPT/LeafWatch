@@ -24,17 +24,33 @@ def data(request,GroupSensor_id):
     return render(request, "sensors/data.html", context)
     
 
-
-
-
-def chartTest(request):
-    #return HttpResponse(template.render({}, request))
-    return render(request, 'sensors/chartTest.html', {})
-
-#sensor group
 def allSensors(request):
     allSensors = SensorGroup.objects.all()
     context = {
         'allSensors' : allSensors,
     }
     return render(request, "sensors/boxes.html", context)
+
+
+def index(request):
+    """View function for home page of site."""
+    # allSensors = SensorGroup.objects.all()
+    # template = loader.get_template("sensors/boxes.html")
+    # context = {
+    #     'allSensors': allSensors,
+    # }
+
+    # Number of visits to this view, as counted in the session variable.
+    num_visits = request.session.get('num_visits', 0)
+    request.session['num_visits'] = num_visits + 1
+
+    context = {
+        'num_visits': num_visits
+    }
+
+    # Render the HTML template index.html with the data in the context variable
+    return render(request, 'index.html', context=context)
+
+
+def chartTest(request):
+    return render(request, 'sensors/chartTest.html', {})

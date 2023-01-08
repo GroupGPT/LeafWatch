@@ -23,3 +23,7 @@ urlpatterns = [
     path('', lambda req: redirect('/sensors/')),
 ]
 
+# For user auth
+urlpatterns += [
+    path('accounts/', include('django.contrib.auth.urls')),
+]
