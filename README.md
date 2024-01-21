@@ -1,6 +1,4 @@
 # LeafWatch (GroupGPT)
-DO NOT MODIFY OR DELETE THE coconut.m FILE. IT WILL CAUSE THE PROGRAM TO NOT RUN
-
 Members:<br />
 Yahya Al-Shamali<br />
 Devin Headrick<br />
